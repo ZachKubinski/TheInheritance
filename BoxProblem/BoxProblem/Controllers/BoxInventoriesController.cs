@@ -6,34 +6,34 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BoxProblem.Data;
+using BoxProblem.Services;
 
 namespace BoxProblem.Controllers
 {
     public class BoxInventoriesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private BoxInventoryService service;
 
         public BoxInventoriesController(ApplicationDbContext context)
         {
-            _context = context;
+            service = new BoxInventoryService(context);
         }
 
         // GET: BoxInventories
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Boxes.ToListAsync());
+            return View(service.GetAllBoxes());
         }
 
         // GET: BoxInventories/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var boxInventory = await _context.Boxes
-                .SingleOrDefaultAsync(m => m.Id == id);
+            BoxInventory boxInventory = service.GetBoxById(id);
             if (boxInventory == null)
             {
                 return NotFound();
@@ -53,26 +53,25 @@ namespace BoxProblem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Weight,Volume,CanHoldLiquid,Cost,InventoryCount,CreatedAt")] BoxInventory boxInventory)
+        public IActionResult Create([Bind("Id,Weight,Volume,CanHoldLiquid,Cost,InventoryCount,CreatedAt")] BoxInventory boxInventory)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(boxInventory);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                service.AddBox(boxInventory);
+                return RedirectToAction("Index");
             }
             return View(boxInventory);
         }
 
         // GET: BoxInventories/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var boxInventory = await _context.Boxes.SingleOrDefaultAsync(m => m.Id == id);
+            BoxInventory boxInventory = service.GetBoxById(id);
             if (boxInventory == null)
             {
                 return NotFound();
@@ -85,7 +84,7 @@ namespace BoxProblem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Weight,Volume,CanHoldLiquid,Cost,InventoryCount,CreatedAt")] BoxInventory boxInventory)
+        public IActionResult Edit(int id, [Bind("Id,Weight,Volume,CanHoldLiquid,Cost,InventoryCount,CreatedAt")] BoxInventory boxInventory)
         {
             if (id != boxInventory.Id)
             {
@@ -94,37 +93,21 @@ namespace BoxProblem.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(boxInventory);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BoxInventoryExists(boxInventory.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                service.SaveEdit(boxInventory);
+                return RedirectToAction("Index");
             }
             return View(boxInventory);
         }
 
         // GET: BoxInventories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var boxInventory = await _context.Boxes
-                .SingleOrDefaultAsync(m => m.Id == id);
+            BoxInventory boxInventory = service.GetBoxById(id);
             if (boxInventory == null)
             {
                 return NotFound();
@@ -136,17 +119,11 @@ namespace BoxProblem.Controllers
         // POST: BoxInventories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var boxInventory = await _context.Boxes.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Boxes.Remove(boxInventory);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool BoxInventoryExists(int id)
-        {
-            return _context.Boxes.Any(e => e.Id == id);
+            BoxInventory box = service.GetBoxById(id);
+            service.DeleteBox(box);
+            return RedirectToAction("Index");
         }
     }
 }
