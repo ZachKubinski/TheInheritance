@@ -13,4 +13,15 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\bootstrap.css" />
+    <None Include="wwwroot\css\StyleSheet.css" />
+    <None Include="wwwroot\js\bootstrap.js" />
+    <None Include="wwwroot\js\vue.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+
 </Project>
