@@ -20,13 +20,13 @@ namespace BoxProblem.Repositories
             return dbContext.Boxes.ToList();
         }
 
-        public void AddBoxes(BoxInventory toAdd)
+        public void AddBox(BoxInventory toAdd)
         {
             dbContext.Boxes.Add(toAdd);
             dbContext.SaveChanges();
         }
 
-        public void SaveEdits(BoxInventory toSave)
+        public void SaveEdit(BoxInventory toSave)
         {
             dbContext.Entry(toSave).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             dbContext.SaveChanges();
