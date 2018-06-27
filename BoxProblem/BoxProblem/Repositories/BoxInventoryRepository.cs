@@ -15,6 +15,11 @@ namespace BoxProblem.Repositories
             dbContext = context;
         }
 
+        public BoxInventory GetBoxById(int? id)
+        {
+            return dbContext.Boxes.Find(id);
+        }
+
         public List<BoxInventory> GetAllBoxes()
         {
             return dbContext.Boxes.ToList();

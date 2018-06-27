@@ -16,6 +16,11 @@ namespace BoxProblem.Services
             repository = new BoxInventoryRepository(context);
         }
 
+        public BoxInventory GetBoxById(int? id)
+        {
+            return repository.GetBoxById(id);
+        }
+
         public List<BoxInventory> GetAllBoxes()
         {
             return repository.GetAllBoxes();
