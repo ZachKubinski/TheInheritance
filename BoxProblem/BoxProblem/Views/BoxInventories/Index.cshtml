@@ -14,80 +14,82 @@
     <title>Out-of-the-Box Boxing</title>
 </head>
 <body>
+<div class="container-fluid">
     <div class="row">
-        <div id="tabs" class="col-lg-2">
-            <div id="app">
-                <input v-model="inputValue" v-on:keyup="conversion" />
+            <div class="col-lg-2" id="tabs">
+                <div id="app">
+                    <input v-model="inputValue" v-on:keyup="conversion" />
+                </div>
+            </div>
+            <div class="col-lg-2" id="tabs">
+                <p>
+                    <a asp-action="Create">Create New</a>
+                </p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Weight)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Volume)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CanHoldLiquid)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Cost)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.InventoryCount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedAt)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <div class="row">
+                            <div id="tabs" class="col-lg-2">
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Weight)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Volume)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CanHoldLiquid)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Cost)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.InventoryCount)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </div>
+                        </div>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="col-lg-2">
-            <p>
-                <a asp-action="Create">Create New</a>
-            </p>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Weight)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Volume)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CanHoldLiquid)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Cost)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.InventoryCount)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CreatedAt)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <div class="row">
-                        <div id="tabs" class="col-lg-2">
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Weight)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Volume)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CanHoldLiquid)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Cost)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.InventoryCount)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CreatedAt)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                    </td>
-                                </tr>
-                            }
-                        </div>
-                    </div>
-                </tbody>
-            </table>
-        </div>
     </div>
-
 </body>
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
 <script>
     var app = new Vue({
         el: '#app',
