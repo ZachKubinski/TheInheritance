@@ -1,24 +1,16 @@
 ﻿@model IEnumerable<BoxProblem.Data.BoxInventory>
 
 @{
-    Layout = null;
+    Layout = "_Layout";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <div class="row"></div>
-    <div class="col" style="background-color:deepskyblue;font-size:48px; color: aliceblue">Out-of-the-Box Boxing</div>
-    <title>Out-of-the-Box Boxing</title>
-</head>
-<body>
+
 <div class="container-fluid">
     <div class="row">
             <div class="col-lg-2" id="tabs">
                 <div id="app">
-                    <input v-model="inputValue" v-on:keyup="conversion" />
+                    <input class="form-control" id="myInput" type="text" placeholder="Search..">
                 </div>
             </div>
             <div class="col-lg-2" id="tabs">
@@ -49,9 +41,7 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <div class="row">
-                            <div id="tabs" class="col-lg-2">
+                    <tbody class="myTable" id="myTable">
                                 @foreach (var item in Model)
                                 {
                                     <tr>
@@ -80,15 +70,12 @@
                                         </td>
                                     </tr>
                                 }
-                            </div>
-                        </div>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-</body>
-</html>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
 <script>
     var app = new Vue({
@@ -103,4 +90,15 @@
             }
         }
     })
+</script>
+<!--search script--> 
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 </script>
