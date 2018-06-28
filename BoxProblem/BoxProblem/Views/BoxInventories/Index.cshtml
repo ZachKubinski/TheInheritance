@@ -8,73 +8,73 @@
 
 <div class="container-fluid">
     <div class="row">
-            <div class="col-lg-2" id="tabs">
-                <div id="app">
-                    <input class="form-control" id="myInput" type="text" placeholder="Search..">
-                </div>
-            </div>
-            <div class="col-lg-2" id="tabs">
-                <p>
-                    <a asp-action="Create">Create New</a>
-                </p>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Weight)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Volume)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CanHoldLiquid)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Cost)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.InventoryCount)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CreatedAt)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody class="myTable" id="myTable">
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Weight)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Volume)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CanHoldLiquid)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Cost)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.InventoryCount)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CreatedAt)
-                                        </td>
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                        </td>
-                                    </tr>
-                                }
-                    </tbody>
-                </table>
+        <div class="col-lg-2" id="tabs">
+            <div id="app">
+                <input class="form-control" id="myInput" type="text" placeholder="Search..">
             </div>
         </div>
+        <div class="col-lg-2" id="tabs">
+            <p>
+                <a asp-action="Create">Create New</a>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">
+                            <p>@Html.DisplayNameFor(model => model.Weight)</p>
+                        </th>
+                        <th onclick="sortTable(1)">
+                            <p>@Html.DisplayNameFor(model => model.Volume)</p>
+                        </th>
+                        <th onclick="sortTable(2)">
+                            <p>@Html.DisplayNameFor(model => model.CanHoldLiquid)</p>
+                        </th>
+                        <th onclick="sortTable(3)">
+                            <p>@Html.DisplayNameFor(model => model.Cost)</p>
+                        </th>
+                        <th onclick="sortTable(4)">
+                            <p>@Html.DisplayNameFor(model => model.InventoryCount)</p>
+                        </th>
+                        <th onclick="sortByDate()">
+                            <p>@Html.DisplayNameFor(model => model.CreatedAt)</p>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="myTable" id="myTable">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Weight)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Volume)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CanHoldLiquid)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cost)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InventoryCount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
 <script>
@@ -86,19 +86,105 @@
         },
         methods: {
             conversion: function () {
-               
+
             }
         }
     })
 </script>
-<!--search script--> 
+<!--search script-->
 <script>
-    $(document).ready(function () {
-        $("#myInput").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#myTable tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("myTable");
+  switching = true;
+  // Set the sorting direction to ascending:
+  dir = "asc";
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.getElementsByTagName("TR");
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 0; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /* Check if the two rows should switch place,
+      based on the direction, asc or desc: */
+        if (dir == "asc") {
+            if (n == 0 || n == 1 || n == 3 || n == 4) { //for numerical comparison
+
+                if (Number(x.innerHTML) > Number(y.innerHTML)) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            else if (n == 2) {
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+      } else if (dir == "desc") {
+            if (n == 0 || n == 1 || n == 3 || n == 4) { //for numerical comparison
+
+                if (Number(x.innerHTML) < Number(y.innerHTML)) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            else if (n == 2) {
+                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1:
+      switchcount ++;
+    } else {
+      /* If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again. */
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+<script>
+    function convertDate(d) {
+        var p = d.split("/");
+        return +(p[2] + p[1] + p[0]);
+    }
+
+    function sortByDate() {
+        var tbody = document.querySelector("#myTable tbody");
+        // get trs as array for ease of use
+        var rows = [].slice.call(tbody.querySelectorAll("tr"));
+
+        rows.sort(function (a, b) {
+            return convertDate(a.cells[0].innerHTML) - convertDate(b.cells[0].innerHTML);
         });
-    });
+
+        rows.forEach(function (v) {
+            tbody.appendChild(v); // note that .appendChild() *moves* elements
+        });
+    }
 </script>
