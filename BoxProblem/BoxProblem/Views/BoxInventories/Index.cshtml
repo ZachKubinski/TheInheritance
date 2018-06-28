@@ -27,7 +27,7 @@
                             <th onclick="sortTable(1)">
                                 @Html.DisplayNameFor(model => model.Volume)
                             </th>
-                            <th onclick="sortTable(2)">
+                            <th onclick = "sortTable(2)">
                                 @Html.DisplayNameFor(model => model.CanHoldLiquid)
                             </th>
                             <th onclick="sortTable(3)">
@@ -79,20 +79,6 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
-<script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-            inputValue: "",
-            outputValue: ""
-        },
-        methods: {
-            conversion: function () {
-
-            }
-        }
-    })
-</script>
 <!--search script-->
 <script>
     $(document).ready(function () {
@@ -106,7 +92,10 @@
 </script>
 <script>
 function sortTable(n) {
-  var table, rows, switching, i, x, y, sho
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("myTable");
+    switching = true;
+    // set the sorting direction to ascending:
   dir = "asc";
   /* Make a loop that will continue until
   no switching has been done: */
