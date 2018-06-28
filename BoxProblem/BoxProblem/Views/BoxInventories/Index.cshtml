@@ -7,8 +7,8 @@
 
 
 <div class="container-fluid">
-    <div id="header"class="row">Out-of-the-Box Boxing</div>
-    <div class="row" >
+    <div id="header" class="row">Out-of-the-Box Boxing</div>
+    <div class="row">
         <div id="search" class="col-lg-2">
             <div id="app">
                 <input class="form-control" id="myInput" type="text" placeholder="Search..">
@@ -17,65 +17,65 @@
                 <button class="btn-original"><a asp-action="Create">Create New</a></button>
             </div>
         </div>
-            <div  class="col-lg-10">
-                <table class="table table-hover">
-                    <thead>
+        <div class="col-lg-10">
+            <table class="table table-hover" id="dataTable">
+                <thead>
+                    <tr id="chartrow">
+                        <th onclick="sortTable(0)">
+                            @Html.DisplayNameFor(model => model.Weight)
+                        </th>
+                        <th onclick="sortTable(1)">
+                            @Html.DisplayNameFor(model => model.Volume)
+                        </th>
+                        <th onclick="sortTable(2)">
+                            @Html.DisplayNameFor(model => model.CanHoldLiquid)
+                        </th>
+                        <th onclick="sortTable(3)">
+                            @Html.DisplayNameFor(model => model.Cost)
+                        </th>
+                        <th onclick="sortTable(4)">
+                            @Html.DisplayNameFor(model => model.InventoryCount)
+                        </th>
+                        <th onclick="sortByDate()">
+                            @Html.DisplayNameFor(model => model.CreatedAt)
+                        </th>
+                        <th id="chart"></th>
+                    </tr>
+                </thead>
+                <tbody class="myTable" id="myTable">
+                    @foreach (var item in Model)
+                    {
                         <tr id="chartrow">
-                            <th onclick="sortTable(0)">
-                                @Html.DisplayNameFor(model => model.Weight)
-                            </th>
-                            <th onclick="sortTable(1)">
-                                @Html.DisplayNameFor(model => model.Volume)
-                            </th>
-                            <th onclick = "sortTable(2)">
-                                @Html.DisplayNameFor(model => model.CanHoldLiquid)
-                            </th>
-                            <th onclick="sortTable(3)">
-                                @Html.DisplayNameFor(model => model.Cost)
-                            </th>
-                            <th onclick="sortTable(4)">
-                                @Html.DisplayNameFor(model => model.InventoryCount)
-                            </th>
-                            <th onclick="sortByDate()">
-                                @Html.DisplayNameFor(model => model.CreatedAt)
-                            </th>
-                            <th id="chart"></th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Weight)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Volume)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CanHoldLiquid)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cost)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InventoryCount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody class="myTable" id="myTable">
-                                @foreach (var item in Model)
-                                {
-                                    <tr id="chartrow">
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Weight)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Volume)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CanHoldLiquid)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Cost)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.InventoryCount)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CreatedAt)
-                                        </td>
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                        </td>
-                                    </tr>
-                                }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
@@ -91,83 +91,83 @@
     });
 </script>
 <script>
-function sortTable(n) {
-    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = document.getElementById("myTable");
-    switching = true;
-    // set the sorting direction to ascending:
-  dir = "asc";
-  /* Make a loop that will continue until
-  no switching has been done: */
-  while (switching) {
-    // Start by saying: no switching is done:
-    switching = false;
-    rows = table.getElementsByTagName("TR");
-    /* Loop through all table rows (except the
-    first, which contains table headers): */
-    for (i = 0; i < (rows.length - 1); i++) {
-      // Start by saying there should be no switching:
-      shouldSwitch = false;
-      /* Get the two elements you want to compare,
-      one from current row and one from the next: */
-      x = rows[i].getElementsByTagName("TD")[n];
-      y = rows[i + 1].getElementsByTagName("TD")[n];
-      /* Check if the two rows should switch place,
-      based on the direction, asc or desc: */
-        if (dir == "asc") {
-            if (n == 0 || n == 1 || n == 3 || n == 4) { //for numerical comparison
-
-                if (Number(x.innerHTML) > Number(y.innerHTML)) {
-                    // If so, mark as a switch and break the loop:
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-            else if (n == 2) {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                    // If so, mark as a switch and break the loop:
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-      } else if (dir == "desc") {
-            if (n == 0 || n == 1 || n == 3 || n == 4) { //for numerical comparison
-
-                if (Number(x.innerHTML) < Number(y.innerHTML)) {
-                    // If so, mark as a switch and break the loop:
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-            else if (n == 2) {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                    // If so, mark as a switch and break the loop:
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-      }
-    }
-    if (shouldSwitch) {
-      /* If a switch has been marked, make the switch
-      and mark that a switch has been done: */
-      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-      switching = true;
-      // Each time a switch is done, increase this count by 1:
-      switchcount ++;
-    } else {
-      /* If no switching has been done AND the direction is "asc",
-      set the direction to "desc" and run the while loop again. */
-      if (switchcount == 0 && dir == "asc") {
-        dir = "desc";
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("myTable");
         switching = true;
-      }
+        // set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.getElementsByTagName("TR");
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 0; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                    if (n == 0 || n == 1 || n == 3 || n == 4) { //for numerical comparison
+
+                        if (Number(x.innerHTML) > Number(y.innerHTML)) {
+                            // If so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                    else if (n == 2) {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                } else if (dir == "desc") {
+                    if (n == 0 || n == 1 || n == 3 || n == 4) { //for numerical comparison
+
+                        if (Number(x.innerHTML) < Number(y.innerHTML)) {
+                            // If so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                    else if (n == 2) {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount++;
+            } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
     }
-  }
-}
 </script>
 <script>
-    function convertDate(d) {
+  /*  function convertDate(d) {
         var p = d.split("/");
         return +(p[2] + p[1] + p[0]);
     }
@@ -185,4 +185,10 @@ function sortTable(n) {
             tbody.appendChild(v); // note that .appendChild() *moves* elements
         });
     }
+    */
+</script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
 </script>
