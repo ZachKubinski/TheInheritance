@@ -1,24 +1,13 @@
 ﻿body {
 }
-h1 {
-    font-size: 36px;
-}
 
-h2 {
-    font-size: 18px;
-    font-family: Droid Sans;
-    color: black;
-}
-
-p {
-    font-size: 12px;
-    font-family: Cambria;
-    color: darkcyan;
-}
-
-.btn-primary {
-    background-color: #408c8c !important;
-    height: 65px;
+.btn-original {
+    background-color: white;
+    margin-top: 10px;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 5px;
+    width: 160px;
 }
 
 tabs {
@@ -30,8 +19,19 @@ tabs {
     background-color: #FF5733;
 }
 #chart {
-    height: 100vh;
-    width: 100vh;
     background-color: ghostwhite;
-    color: #581845;
+}
+#chartrow {
+    width: 100vh;
+    height: 100px;
+}
+#header {
+    background-color: #900C3F;
+    color: white;
+    font-family: 'Palatino Linotype';
+    font-size: 36px;
+    padding: 10px 10px 10px 10px;
+}
+#myInput {
+    margin-top: 10px;
 }
