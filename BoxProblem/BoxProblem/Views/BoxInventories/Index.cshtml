@@ -4,20 +4,20 @@
     Layout = "_Layout";
 }
 
-
-
 <div class="container-fluid">
-    <div class="row">
-            <div class="col-lg-2" id="tabs">
-                <div id="app">
-                    <input class="form-control" id="myInput" type="text" placeholder="Search..">
-                </div>
+    <div class="row h1"style=" background-color: #900C3F;color:white;font-family: 'Palatino Linotype'">Out-of-the-Box Boxings</div>
+    <div class="row" >
+        <div id="search" class="col-lg-2">
+            <div id="app">
+                <input class="form-control" id="myInput" type="text" placeholder="Search..">
             </div>
-            <div class="col-lg-2" id="tabs">
-                <p>
-                    <a asp-action="Create">Create New</a>
-                </p>
-                <table class="table">
+            <div class="btn-block" style="background-color:white">
+                <a asp-action="Create">Create New</a>
+            </div>
+        </div>
+            <div  class="col-lg-2">
+                
+                <table id="chart" class="table table-hover">
                     <thead>
                         <tr>
                             <th>
