@@ -5,21 +5,20 @@
 }
 
 <div class="container-fluid">
-    <div id="header"class="row">Out-of-the-Box Boxings</div>
+    <div id="header"class="row">Out-of-the-Box Boxing</div>
     <div class="row" >
         <div id="search" class="col-lg-2">
             <div id="app">
                 <input class="form-control" id="myInput" type="text" placeholder="Search..">
             </div>
-            <div class="btn-original" style="background-color:white">
-                <a asp-action="Create">Create New</a>
+            <div>
+                <button class="btn-original"><a asp-action="Create">Create New</a></button>
             </div>
         </div>
-            <div  class="col-lg-2">
-                
-                <table id="chart" class="table table-hover">
+            <div  class="col-lg-10">
+                <table class="table table-hover">
                     <thead>
-                        <tr>
+                        <tr id="chartrow">
                             <th>
                                 @Html.DisplayNameFor(model => model.Weight)
                             </th>
@@ -38,13 +37,13 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.CreatedAt)
                             </th>
-                            <th></th>
+                            <th id="chart"></th>
                         </tr>
                     </thead>
                     <tbody class="myTable" id="myTable">
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
+                                    <tr id="chartrow">
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Weight)
                                         </td>

@@ -1,19 +1,13 @@
 ﻿body {
 }
 
-p {
-    font-size: 12px;
-    font-family: Cambria;
-    color: darkcyan;
-}
-
 .btn-original {
-    background-color: white !important;
-    height: 65px;
-    font-size: 24px;
+    background-color: white;
+    margin-top: 10px;
+    font-size: 16px;
+    padding: 5px;
     border-radius: 5px;
-    padding-top: 20px;
-    box-shadow: inset 0 0 0 10px #FF5733 !important;
+    width: 160px;
 }
 
 tabs {
@@ -25,14 +19,19 @@ tabs {
     background-color: #FF5733;
 }
 #chart {
-    height: 100vh;
-    width: 100vh;
     background-color: ghostwhite;
-    color: #581845;
+}
+#chartrow {
+    width: 100vh
+    height: 100px;
 }
 #header {
     background-color: #900C3F;
     color: white;
     font-family: 'Palatino Linotype';
     font-size: 36px;
+    padding: 10px 10px 10px 10px;
+}
+#myInput {
+    margin-top: 10px;
 }
